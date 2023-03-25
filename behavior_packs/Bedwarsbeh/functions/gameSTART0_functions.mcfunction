@@ -21,10 +21,10 @@ execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ kill @e[type=minecraft:zom
 #重置地图
 execute @e[type=armor_stand,name=main,scores={gameSTART=0}] ~~~ function reset_map
 #游戏未开始传送游戏区玩家到大厅
-execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=112,dz=126] ~~~ effect @s clear
-execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=112,dz=126] ~~~ tp @s -200 200 -200
-execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=112,dz=126] ~~~ xp -99999L @s
-execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=127,dy=112,dz=127] ~~~ clear @s
+execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=120,dz=126] ~~~ effect @s clear
+execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=120,dz=126] ~~~ tp @s -200 200 -200
+execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=126,dy=120,dz=126] ~~~ xp -99999L @s
+execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @a[x=-63,y=92,z=-63,dx=127,dy=120,dz=127] ~~~ clear @s
 #游戏未开始时删除僵尸猪人
 execute @e[type=armor_stand,scores={gameSTART=0},name=main] ~~~ execute @e[type=zombie_pigman] ~~~ detect ~ ~-1 ~ barrier 0 tp @s 0 -100 0
 #gamestart=0,复制告示牌游戏未开始
@@ -49,17 +49,33 @@ execute @e[type=armor_stand,name=main,tag=reset_OK,scores={gameSTART=0,starting=
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,starting=0,reseting=0},tag=!reset_OK] ~~~ execute @e[type=player,x=-202,y=201,z=-196,r=3,c=1] ~~~ detect -202 201 -196 polished_blackstone_button 9 execute @s[tag=op] ~~~ execute @e[type=armor_stand,name=main,scores={gameSTART=0}] ~~~ scoreboard players add @s "游戏模式" 1
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,starting=0,reseting=0},tag=!reset_OK] ~~~ execute @e[type=player,x=-202,y=201,z=-196,r=3,c=1] ~~~ detect -202 201 -196 polished_blackstone_button 9 execute @s[tag=!op] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §c您没有权限修改地图， 请确保您拥有名为op的tag" } ] }
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,"游戏模式"=3..,starting=0,reseting=0},tag=!reset_OK] ~~~ execute @e[type=player,x=-202,y=201,z=-196,r=3,c=1] ~~~ detect -202 201 -196 polished_blackstone_button 9 execute @s[tag=op] ~~~ scoreboard players set @e[type=armor_stand,name=main,scores={gameSTART=0,"游戏模式"=3..,starting=0,reseting=0}] "游戏模式" 1
-execute @e[type=armor_stand,name=main,scores={gameSTART=0,starting=0,reseting=0},tag=!reset_OK] ~~~ execute @e[type=player,x=-202,y=201,z=-196,r=3,c=1] ~~~ detect -202 201 -196 polished_blackstone_button 9 execute @s[tag=op] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §6§l游戏模式已被更改为 §d" },{"translate":"%%2","with":{"rawtext":[{"selector":"@e[type=armor_stand,name=main,scores={游戏模式=2}]"},{"text":"§o疾速模式"},{"text":"§r§l§d普通模式"}]}} ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0,starting=0,reseting=0},tag=!reset_OK] ~~~ execute @e[type=player,x=-202,y=201,z=-196,r=3,c=1] ~~~ detect -202 201 -196 polished_blackstone_button 9 execute @s[tag=op] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §e§l游戏模式已被更改为 §d" },{"translate":"%%2","with":{"rawtext":[{"selector":"@e[type=armor_stand,name=main,scores={游戏模式=2}]"},{"text":"§o疾速模式"},{"text":"§r§l§d普通模式"}]}} ] }
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,starting=0,reseting=0},tag=!reset_OK] ~~~ detect -202 201 -196 polished_blackstone_button 9 setblock -202 201 -196 polished_blackstone_button 1
 #游戏开始前复制游戏模式告示牌
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,"游戏模式"=2,starting=0,reseting=0},tag=!reset_OK] ~~~ clone 289 5 294 289 5 294 -202 200 -197
 execute @e[type=armor_stand,name=main,scores={gameSTART=0,"游戏模式"=1,starting=0,reseting=0},tag=!reset_OK] ~~~ clone 289 4 294 289 4 294 -202 200 -197
+#当 即将设置的最少开始玩家数 等于 已设置的最少开始玩家数 时tellraw管理员
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.2] ~~~ execute @a[tag=op,tag=set.start.players.2] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 2" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.3] ~~~ execute @a[tag=op,tag=set.start.players.3] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 3" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.4] ~~~ execute @a[tag=op,tag=set.start.players.4] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 4" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.5] ~~~ execute @a[tag=op,tag=set.start.players.5] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 5" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.6] ~~~ execute @a[tag=op,tag=set.start.players.6] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 6" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.7] ~~~ execute @a[tag=op,tag=set.start.players.7] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 7" } ] }
+execute @e[type=armor_stand,name=main,scores={gameSTART=0},tag=set.start.players.8] ~~~ execute @a[tag=op,tag=set.start.players.8] ~~~ tellraw @s { "rawtext" : [ { "text" : "§f§l起床战争 >> §r§cThe minimum number of players required to start the game has already been set to 8" } ] }
 #给予tag并调整人数
 execute @e[type=armor_stand,name=main,scores={gameSTART=0}] ~~~ function change_start_player_count
 #检测人数
 execute @e[type=armor_stand,scores={gameSTART=0}] ~~~ execute @e[type=player] ~~~ scoreboard players add @e[type=armor_stand,scores={gameSTART=0},tag=reset_OK] "大厅人数" 2
 execute @e[type=armor_stand,scores={gameSTART=0},tag=reset_OK] ~~~ scoreboard players operation @a "大厅人数" = @s "大厅人数"
 execute @e[type=armor_stand,scores={gameSTART=0},tag=reset_OK] ~~~ scoreboard players operation @a "开始倒计时" = @s "开始倒计时"
+#房主更改游戏开始所需人数时tellraw提示
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.2,tag=!set.players.2.tellrawed] ~~~ function commands/test_tag/set.players.2.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.3,tag=!set.players.3.tellrawed] ~~~ function commands/test_tag/set.players.3.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.4,tag=!set.players.4.tellrawed] ~~~ function commands/test_tag/set.players.4.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.5,tag=!set.players.5.tellrawed] ~~~ function commands/test_tag/set.players.5.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.6,tag=!set.players.6.tellrawed] ~~~ function commands/test_tag/set.players.6.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.7,tag=!set.players.7.tellrawed] ~~~ function commands/test_tag/set.players.7.tellrawed
+execute @e[type=armor_stand,scores={gameSTART=0},tag=set.start.players.8,tag=!set.players.8.tellrawed] ~~~ function commands/test_tag/set.players.8.tellrawed
 #游戏结束时大厅actionbar
 execute @e[type=armor_stand,scores={gameSTART=0,starting=0..1},tag=reset_OK] ~~~ execute @a ~~~ titleraw @s actionbar { "rawtext" : [ { "text" : "§r§f等级: §b§l" },{ "score" : { "name" : "@s" , "objective" : "等级"}},{ "text" : "    §r§f经验: §b§l" },{ "score" : { "name" : "@s" , "objective" : "等级经验"}},{ "text" : "§b / 1000\n" },{ "text" : "§r§f硬币: §e§l" },{ "score" : { "name" : "@s" , "objective" : "硬币数"}},{ "text" : "\n§r§f总击杀数: §e§l" },{ "score" : { "name" : "@s" , "objective" : "总击杀数"}},{ "text" : "\n§r§f总胜利数: §e§l" },{ "score" : { "name" : "@s" , "objective" : "胜场数"}},{ "text" : "   §r§f总游戏数: §e§l" },{ "score" : { "name" : "@s" , "objective" : "总游戏数"}} ] }
 #等待玩家时设置等待显示计分板

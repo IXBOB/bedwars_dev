@@ -38,16 +38,16 @@ execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ title @a[scores={
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ title @a title §a§l游戏开始
 #倒计时0 subtitle
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ titleraw @a subtitle { "rawtext" : [{"translate":"%%2","with":{"rawtext":[{"selector":"@e[type=armor_stand,name=main,scores={游戏模式=2}]"},{"text":"§o§l疾速模式"},{"text":"§r§f§l普通模式"}]}} ] }
+#设置respawning
+execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set * respawning 0
 #红床存活 -> 1
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set @e[type=armor_stand,name=main,scores={starting=1}] "红床存活" 1
 #蓝床存活 -> 1
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set @e[type=armor_stand,name=main,scores={starting=1}] "蓝床存活" 1
 #gameSTART -> 1
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set @e[type=armor_stand,name=main,scores={gameSTART=0}] gameSTART 1
-#删除掉线玩家
-execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ kill @a[scores={"存活"=0}]
 #重生时间 -> 5
-execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set @a[scores={"分队"=1..2}] "重生时间" 5
+execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ scoreboard players set @a[scores={"分队"=1..2}] "重生时间" 100
 #XP清空
 execute @e[type=armor_stand,name=main,scores={starting=1}] ~~~ xp -99999L @a
 #剑等级 -> 1
